@@ -66,7 +66,7 @@ class AssetController extends Controller
                 ->join('locations', 'locations.id', '=', 'location_id');
 
             $paginator = Asset::select('assets.*', env('DB_CONNECTION') == 'pgsql' ? DB::raw("STRING_AGG(CONCAT_WS( ' ' , location_name, ' => ', summarized.quantity),'<br> ') AS asset_locations") : DB::raw("REPLACE(TRIM(GROUP_CONCAT(' ', location_name, ' => ', summarized.quantity)), ',', '<br>') AS `asset_locations`"))
-                ->joinSub($summarized, 'summarized', function ($join) {
+                ->leftJoinSub($summarized, 'summarized', function ($join) {
                     $join->on('assets.id', '=', 'summarized.asset_id');
                     // ->on('members.name', '=', 'duplicates.dname');
                 })
