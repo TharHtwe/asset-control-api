@@ -34,16 +34,16 @@ class ReportController extends Controller
         $request->validate([
             'datas' => 'required',
         ]);
-		$scope = $request->has('scope') ? $request->get('scope') : 'ctu';
+        $scope = $request->has('scope') ? $request->get('scope') : 'all';
         $datas = explode(",", $request->datas);
         return response([
             'groups' => in_array('groups', $datas) ? Asset::select('group')->whereNotNull('group')->when($scope != 'all', function ($query, $check_result) use ($scope) {
-                    if ($scope == 'lvt') {
-                        return $query->where('group', 'LVT');
-                    } else {
-                        return $query->where('group', '<>', 'LVT');
-                    }
-                })->orderBy('group')->distinct()->get() : null,
+                if ($scope == 'lvt') {
+                    return $query->where('group', 'LVT');
+                } else {
+                    return $query->where('group', '<>', 'LVT');
+                }
+            })->orderBy('group')->distinct()->get() : null,
             'locations' => in_array('locations', $datas) ? Location::select('id', 'name')->orderBy('name')->get() : null,
             'asset_columns' => $this->asset_columns,
         ]);
@@ -55,7 +55,7 @@ class ReportController extends Controller
         $sortDirection = ($request->has('sort_direction') && !is_null($request->get('sort_direction'))) ? $request->get('sort_direction') : 'asc';
 
         $groups = $request->has('groups') ? $request->get('groups') : '';
-        $scope = $request->has('scope') ? $request->get('scope') : 'ctu';
+        $scope = $request->has('scope') ? $request->get('scope') : 'all';
         try {
             $summarized = DB::table('asset_locations')
                 ->selectRaw("asset_id, location_id, locations.name AS location_name, quantity")
@@ -96,7 +96,7 @@ class ReportController extends Controller
         $sortDirection = ($request->has('sort_direction') && !is_null($request->get('sort_direction'))) ? $request->get('sort_direction') : 'asc';
 
         $groups = $request->has('groups') ? $request->get('groups') : '';
-        $scope = $request->has('scope') ? $request->get('scope') : 'ctu';
+        $scope = $request->has('scope') ? $request->get('scope') : 'all';
         $columns = $request->has('columns') ? $request->get('columns') : implode(',', array_column($this->asset_columns, 'value'));
         $column_count = count(explode(',', $columns));
 
@@ -264,7 +264,7 @@ class ReportController extends Controller
         ]]]); */
         $sortBy = ($request->has('sort_by') && !is_null($request->get('sort_by'))) ? $request->get('sort_by') : 'name';
         $sortDirection = ($request->has('sort_direction') && !is_null($request->get('sort_direction'))) ? $request->get('sort_direction') : 'asc';
-        $scope = $request->has('scope') ? $request->get('scope') : 'ctu';
+        $scope = $request->has('scope') ? $request->get('scope') : 'all';
         $groups = $request->has('groups') ? $request->get('groups') : '';
 
         $flocations = $request->has('locations') ? $request->get('locations') : '';
@@ -283,7 +283,7 @@ class ReportController extends Controller
                         return $query->whereHas('asset', function (Builder $q) {
                             $q->where('group', 'LVT');
                         });
-                    } else if ($scope == 'ctu') {
+                    } else if ($scope == 'all') {
                         return $query->whereHas('asset', function (Builder $q) {
                             $q->where('group', '<>', 'LVT');
                         });
@@ -321,7 +321,7 @@ class ReportController extends Controller
         $sortBy = ($request->has('sort_by') && !is_null($request->get('sort_by'))) ? $request->get('sort_by') : 'name';
         $sortDirection = ($request->has('sort_direction') && !is_null($request->get('sort_direction'))) ? $request->get('sort_direction') : 'asc';
 
-        $scope = $request->has('scope') ? $request->get('scope') : 'ctu';
+        $scope = $request->has('scope') ? $request->get('scope') : 'all';
         $groups = $request->has('groups') ? $request->get('groups') : '';
 
         $flocations = $request->has('locations') ? $request->get('locations') : '';
@@ -341,7 +341,7 @@ class ReportController extends Controller
                         return $query->whereHas('asset', function (Builder $q) {
                             $q->where('group', 'LVT');
                         });
-                    } else if ($scope == 'ctu') {
+                    } else if ($scope == 'all') {
                         return $query->whereHas('asset', function (Builder $q) {
                             $q->where('group', '<>', 'LVT');
                         });

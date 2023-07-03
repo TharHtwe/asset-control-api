@@ -28,7 +28,7 @@ class MovementController extends Controller
 
         $filter = $request->has('filter') ? $request->get('filter') : '';
         $asset_id = $request->has('asset_id') ? $request->get('asset_id') : '';
-        $scope = $request->has('scope') ? $request->get('scope') : 'ctu';
+        $scope = $request->has('scope') ? $request->get('scope') : 'all';
         try {
             $paginator = Movement::whereHas('location.branch', function (Builder $query) {
                 $query->where('organization_id', request()->user()->organization_id);
@@ -74,7 +74,7 @@ class MovementController extends Controller
 
     public function show(Request $request, $id)
     {
-        $scope = $request->has('scope') ? $request->get('scope') : 'ctu';
+        $scope = $request->has('scope') ? $request->get('scope') : 'all';
         $movement = Movement::whereHas('location.branch', function (Builder $query) {
             $query->where('organization_id', request()->user()->organization_id);
         })
@@ -101,7 +101,7 @@ class MovementController extends Controller
 
     public function create(Request $request)
     {
-        $scope = $request->has('scope') ? $request->get('scope') : 'ctu';
+        $scope = $request->has('scope') ? $request->get('scope') : 'all';
         return response([
             'locations' => Location::orderBy('name', 'asc')->get(),
             'assets' => Asset::when($scope != 'all', function ($query, $check_result) use ($scope) {
@@ -184,7 +184,7 @@ class MovementController extends Controller
 
     public function edit(Request $request, $id)
     {
-        $scope = $request->has('scope') ? $request->get('scope') : 'ctu';
+        $scope = $request->has('scope') ? $request->get('scope') : 'all';
         $movement = Movement::whereHas('location.branch', function (Builder $query) {
             $query->where('organization_id', request()->user()->organization_id);
         })
@@ -306,7 +306,7 @@ class MovementController extends Controller
 
     public function destroy(Request $request, $id)
     {
-        $scope = $request->has('scope') ? $request->get('scope') : 'ctu';
+        $scope = $request->has('scope') ? $request->get('scope') : 'all';
         $movement = Movement::whereHas('location.branch', function (Builder $query) {
             $query->where('organization_id', request()->user()->organization_id);
         })

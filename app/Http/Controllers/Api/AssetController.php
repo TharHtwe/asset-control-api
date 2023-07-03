@@ -105,7 +105,7 @@ class AssetController extends Controller
 
     public function show(Request $request, $id)
     {
-        $scope = $request->has('scope') ? $request->get('scope') : 'ctu';
+        $scope = $request->has('scope') ? $request->get('scope') : 'all';
         $asset = Asset::where('organization_id', $request->user()->organization_id)
             ->when($scope != 'all', function ($query, $check_result) use ($scope) {
                 if ($scope == 'lvt') {
@@ -126,7 +126,7 @@ class AssetController extends Controller
 
     public function create(Request $request)
     {
-        $scope = $request->has('scope') ? $request->get('scope') : 'ctu';
+        $scope = $request->has('scope') ? $request->get('scope') : 'all';
         return response([
             'groups' => Asset::select('group')->whereNotNull('group')
                 ->when($scope != 'all', function ($query, $check_result) use ($scope) {
@@ -198,7 +198,7 @@ class AssetController extends Controller
 
     public function edit(Request $request, $id)
     {
-        $scope = $request->has('scope') ? $request->get('scope') : 'ctu';
+        $scope = $request->has('scope') ? $request->get('scope') : 'all';
         $asset = Asset::where('organization_id', $request->user()->organization_id)
             ->when($scope != 'all', function ($query, $check_result) use ($scope) {
                 if ($scope == 'lvt') {
@@ -230,7 +230,7 @@ class AssetController extends Controller
 
     public function update(Request $request, $id)
     {
-        $scope = $request->has('scope') ? $request->get('scope') : 'ctu';
+        $scope = $request->has('scope') ? $request->get('scope') : 'all';
         $asset = Asset::where('organization_id', $request->user()->organization_id)
             ->when($scope != 'all', function ($query, $check_result) use ($scope) {
                 if ($scope == 'lvt') {
@@ -303,7 +303,7 @@ class AssetController extends Controller
 
     public function destroy(Request $request, $id)
     {
-        $scope = $request->has('scope') ? $request->get('scope') : 'ctu';
+        $scope = $request->has('scope') ? $request->get('scope') : 'all';
         $asset = Asset::where('organization_id', $request->user()->organization_id)
             ->when($scope != 'all', function ($query, $check_result) use ($scope) {
                 if ($scope == 'lvt') {
