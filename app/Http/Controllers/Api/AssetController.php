@@ -30,7 +30,7 @@ class AssetController extends Controller
 
         $filter = $request->has('filter') ? $request->get('filter') : '';
         $groups = $request->has('groups') ? $request->get('groups') : '';
-        $scope = $request->has('scope') ? $request->get('scope') : 'ctu';
+        $scope = $request->has('scope') ? $request->get('scope') : 'all';
         try {
             // SELECT assets.id, assets.name, GROUP_CONCAT(' ', location_name, ' => ', total) AS asset_locations FROM assets INNER JOIN (
             //     SELECT asset_id, location_id, locations.name AS location_name, SUM(quantity) AS total FROM asset_movements
@@ -72,7 +72,7 @@ class AssetController extends Controller
                 })
                 ->when($filter != '', function ($query, $check_result) use ($filter) {
                     return $query->where('name', env('DB_CONNECTION') == 'pgsql' ? 'ILIKE' : 'LIKE', "%$filter%");
-                        //->orWhere('group', env('DB_CONNECTION') == 'pgsql' ? 'ILIKE' : 'LIKE', "%$filter%");
+                    //->orWhere('group', env('DB_CONNECTION') == 'pgsql' ? 'ILIKE' : 'LIKE', "%$filter%");
                 })
                 ->when($groups != '', function ($query, $check_result) use ($groups) {
                     return $query->whereIn('group', explode(',', $groups));
@@ -183,7 +183,7 @@ class AssetController extends Controller
                     'warranty_end' => isset($jasset->warranty_end) ? $jasset->warranty_end : null,
                     'status' => $jasset->status,
                     'summarize_by_group' => $jasset->summarize_by_group,
-					'summarize_by' => isset($jasset->summarize_by) ? $jasset->summarize_by : null,
+                    'summarize_by' => isset($jasset->summarize_by) ? $jasset->summarize_by : null,
                 ]);
             }, 5);
             return response(['asset' => $asset]);
@@ -215,7 +215,7 @@ class AssetController extends Controller
         }
 
         return response([
-			'asset' => $asset,
+            'asset' => $asset,
             'groups' => Asset::select('group')->whereNotNull('group')
                 ->when($scope != 'all', function ($query, $check_result) use ($scope) {
                     if ($scope == 'lvt') {
@@ -288,7 +288,7 @@ class AssetController extends Controller
                     'warranty_end' => isset($jasset->warranty_end) ? $jasset->warranty_end : null,
                     'status' => $jasset->status,
                     'summarize_by_group' => $jasset->summarize_by_group,
-					'summarize_by' => isset($jasset->summarize_by) ? $jasset->summarize_by : null,
+                    'summarize_by' => isset($jasset->summarize_by) ? $jasset->summarize_by : null,
                 ]);
             }, 5);
             return response(['asset' => $asset]);

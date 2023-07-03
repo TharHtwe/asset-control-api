@@ -15,13 +15,13 @@ class CreateAssetMovementsTable extends Migration
     {
         Schema::create('asset_movements', function (Blueprint $table) {
             $table->id();
-			$table->timestamp('record_date');
+            $table->timestamp('record_date');
             $table->unsignedBigInteger('asset_id');
             $table->unsignedBigInteger('location_id');
             $table->unsignedBigInteger('to_location_id')->nullable();
             $table->enum('movement_type', ['opening', 'moved', 'disposed'])->default('opening');
             $table->integer('quantity');
-			$table->integer('recroded_by');
+            $table->integer('recorded_by');
             $table->string('remark')->nullable();
             $table->timestamps();
 
