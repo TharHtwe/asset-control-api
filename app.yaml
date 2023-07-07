@@ -1,0 +1,58 @@
+runtime: php81  # version of php
+env: standard     # set app engine env to standard
+runtime_config:
+  document_root: .
+# for detecting static files in the public folder
+handlers:
+  - url: /(.*\.(gif|png|jpg|css|js))$
+    static_files: public/\1
+    upload: public/.*\.(gif|png|jpg|css|js)$
+  - url: /.*
+    secure: always
+    redirect_http_response_code: 301
+    script: auto
+env_variables:
+  APP_KEY: base64:Uf8l/ytW7f0+/6od3gSCIenKzh1UPzLAML/S36FYtPQ=
+  APP_STORAGE: /tmp
+  VIEW_COMPILED_PATH: /tmp
+  BACKBLAZE_ACCESS_KEY_ID=00063daf79f81920000000003
+  BACKBLAZE_SECRET_ACCESS_KEY=K000kvrhAKaeb6WkP4RsoQlNjgOxlXI
+  BACKBLAZE_DEFAULT_REGION=us-west-0
+  BACKBLAZE_BUCKET=asset-control
+  BACKBLAZE_URL=https://f000.backblazeb2.com/file/asset-control
+  BACKBLAZE_ENDPOINT=https://s3.us-west-000.backblazeb2.com
+  RECAPTCHA_SECRET=6LeKd-4cAAAAADzibP6cAwBfdJYuZ7kg5d0Ypkig
+  MAX_UPLOAD_DOCUMENT_SIZE=30
+  ASSET_STORAGE_DISK=backblaze
+  ASSET_STORAGE_URL=https://f000.backblazeb2.com/file/asset-control
+DB_CONNECTION: mysql
+  DB_HOST: 127.0.0.1
+  DB_PORT: 3306
+  DB_DATABASE: assets
+  DB_USERNAME: root
+  DB_PASSWORD: "admin123"
+APP_NAME: "Google cloud vision"
+  APP_ENV: production
+  APP_DEBUG: true
+  APP_URL: "http://asset-control.test.com"
+  ASSET_URL: ""
+SESSION_DRIVER: cookie
+QUEUE_CONNECTION: sync
+MAIL_MAILER: smtp
+  MAIL_HOST: ""
+  MAIL_PORT: 465
+  MAIL_USERNAME: ""
+  MAIL_PASSWORD: ""
+  MAIL_ENCRYPTION: ssl
+  MAIL_FROM_ADDRESS:
+  MAIL_FROM_NAME: "Google cloud vision"
+PUSHER_APP_ID:
+  PUSHER_APP_KEY:
+  PUSHER_APP_SECRET:
+  PUSHER_APP_CLUSTER: mt1
+//the tmp folder is used for caching on GCP as opposed to the default storage folder
+  APP_SERVICES_CACHE: /tmp/services.php
+  APP_PACKAGES_CACHE: /tmp/packages.php
+  APP_CONFIG_CACHE: /tmp/config.php
+  APP_ROUTES_CACHE: /tmp/routes.php
+
