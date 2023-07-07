@@ -64,4 +64,4 @@ env_variables:
   APP_ROUTES_CACHE: /tmp/routes.php
 
 beta_settings:
-cloud_sql_instances: 'ivory-analyst-295912:asia-southeast1:assets'
+  cloud_sql_instances: 'ivory-analyst-295912:asia-southeast1:assets'
