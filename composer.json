@@ -13,7 +13,9 @@
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
         "league/flysystem-aws-s3-v3": "1.0.29",
-        "phpoffice/phpspreadsheet": "^1.24"
+        "phpoffice/phpspreadsheet": "^1.24",
+        "ext-sodium": "*",
+        "ext-gd": "*"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

@@ -1,7 +1,8 @@
-runtime: php
+runtime: php81
 env: flex
 runtime_config:
   document_root: public
+  operating_system: "ubuntu18"
 # for detecting static files in the public folder
 skip_files:
     - .env
