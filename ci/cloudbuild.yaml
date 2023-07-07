@@ -8,4 +8,18 @@ steps:
           && gcloud app deploy -q --promote -v=$BUILD_ID \
           --project=$PROJECT_ID
 
+    - name: 'gcr.io/cloud-builders/gcloud'
+      entrypoint: "bash"
+      args:
+        - "-c"
+        - |
+          RESPONSE=$(curl -o /dev/null -s -w "%{http_code}" \
+                          -d "" -X POST $_APP_BASE_URL)
+          if [ "200" != "$$RESPONSE" ];
+          then
+              echo "FAIL: migrations failed" exit 1;
+          else
+              echo "PASS: migrations ran successfully"
+          fi
+
 timeout: '3600s'
